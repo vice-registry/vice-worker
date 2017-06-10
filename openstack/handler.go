@@ -8,27 +8,49 @@ import (
 	"github.com/rackspace/gophercloud/openstack"
 	"github.com/rackspace/gophercloud/openstack/imageservice/v2/images"
 
+	"fmt"
+
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/storage"
 )
+
+// Credentials credential extension for OpenStack
+type Credentials struct {
+	TenantName string
+	Region     string
+}
 
 // Import an image from OpenStack
 func Import(image *models.Image) error {
 
 	// start import
-	log.Printf("Going to import imageID %s", image.ID)
+	log.Printf("Going to import imageID %s from OpenStack", image.ID)
 
 	// extract data from image model
-	/*endpoint := "http://omistack-beta.e-technik.uni-ulm.de:5000/v2.0"
-	username := "vice"
-	password := "Ff3RNQ1"
-	tenant := "vice"*/
-	endpoint := image.OriginEnvironment.Credentials.Endpoint
+	endpoint := image.OriginEnvironment.Credentials.Location
 	username := image.OriginEnvironment.Credentials.Username
 	password := image.OriginEnvironment.Credentials.Password
-	tenant := image.OriginEnvironment.Credentials.Username // QUICK FIX
-	region := "RegionOne"                                  // MISSING
-	osImageID := "9c154d9a-fab9-4507-a3d7-21b72d31de97"    // MISSING
+	specifics, ok := image.OriginEnvironment.Credentials.Specifics.(map[string]interface{})
+	if !ok {
+		err := fmt.Errorf("failed to convert specifics")
+		log.Printf("Unable to get openstack specifics: %s", err)
+		return err
+	}
+	rawTenant, ok := specifics["TenantName"]
+	if !ok {
+		err := fmt.Errorf("missing specific value %s", "TenantName")
+		log.Printf("Unable to get openstack specifics: %s", err)
+		return err
+	}
+	tenant := rawTenant.(string)
+	rawRegion, ok := specifics["Region"]
+	if !ok {
+		err := fmt.Errorf("missing specific value %s", "Region")
+		log.Printf("Unable to get openstack specifics: %s", err)
+		return err
+	}
+	region := rawRegion.(string)
+	osImageID := image.EnvironmentReference
 
 	// login to openstack
 	osProvider, err := login(endpoint, username, password, tenant)
@@ -54,7 +76,7 @@ func Import(image *models.Image) error {
 	err = storage.StoreImage(image, reader)
 
 	// close import
-	log.Printf("Finished to import imageID %s", image.ID)
+	log.Printf("Finished to import imageID %s from OpenStack", image.ID)
 
 	return nil
 }

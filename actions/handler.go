@@ -39,5 +39,9 @@ func handleAction(imageID string) error {
 		return err
 	}
 
+	// Update image in Couchbase
+	image.Imported = true
+	persistence.UpdateImage(image)
+
 	return nil
 }

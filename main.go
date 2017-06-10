@@ -9,7 +9,6 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/persistence"
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/actions"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/openstack"
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/storage"
 )
 
@@ -81,16 +80,14 @@ func main() {
 	// initialize storage
 	storage.SetStorageConfig(storageFlags.Basepath)
 
-	/*
-		log.Print("Wait for incoming import actions...")
-		err = actions.WaitForActions()
-		if err != nil {
-			log.Printf("Cannot WaitForActions: %s", err)
-			shutdown()
-		}
-	*/
+	log.Print("Wait for incoming import actions...")
+	err = actions.WaitForActions()
+	if err != nil {
+		log.Printf("Cannot WaitForActions: %s", err)
+		shutdown()
+	}
 
-	openstack.Test()
+	//openstack.Test()
 
 }
 
