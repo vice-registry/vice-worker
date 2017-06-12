@@ -2,18 +2,20 @@ package actions
 
 import (
 	"log"
+
+	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/common"
 )
 
 // WaitForActions listens on RabbitMQ channel and accepts one message at a time
 func WaitForActions() error {
 
 	queue, err := rabbitmqCredentials.Channel.QueueDeclare(
-		"import", // name
-		true,     // durable
-		false,    // delete when usused
-		false,    // exclusive
-		false,    // no-wait
-		nil,      // arguments
+		adaptors.WorkerType, // name
+		true,                // durable
+		false,               // delete when usused
+		false,               // exclusive
+		false,               // no-wait
+		nil,                 // arguments
 	)
 	if err != nil {
 		log.Printf("Unable to connect to RabbitMQ: %s", err)
@@ -49,10 +51,13 @@ func WaitForActions() error {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			imageID := string(d.Body)
-			err := handleAction(imageID)
+			reference := string(d.Body)
+			action := Action{
+				reference: reference,
+			}
+			err := handleAction(action)
 			if err != nil {
-				log.Printf("Failed to handle action for imageId %s: %s", imageID, err)
+				log.Printf("Failed to handle action for reference %s: %s", reference, err)
 			} else {
 				d.Ack(false)
 			}

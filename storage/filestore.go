@@ -22,8 +22,9 @@ func SetStorageConfig(basepath string) {
 
 // StoreImage stores an image in the specified location on the file system
 func StoreImage(image *models.Image, reader io.Reader) error {
+	filepath := storageConfig.Basepath + "/" + image.ID + ""
 	// open output file
-	file, err := os.Create(storageConfig.Basepath + "/" + image.ID + "")
+	file, err := os.Create(filepath)
 	if err != nil {
 		log.Printf("Error in storage: failed to create file for imageID %s: %s", image.ID, err)
 		return err
@@ -67,4 +68,11 @@ func StoreImage(image *models.Image, reader io.Reader) error {
 	}
 
 	return nil
+}
+
+// RetrieveImage returns File pointer to an image in the specified location on the file system
+func RetrieveImage(image *models.Image) (*os.File, error) {
+	filepath := storageConfig.Basepath + "/" + image.ID + ""
+	file, err := os.Open(filepath)
+	return file, err
 }

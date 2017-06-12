@@ -8,15 +8,17 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/persistence"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/actions"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-import/storage"
+	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/actions"
+	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/common"
+	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/storage"
 )
 
 func main() {
 
 	// default flags
 	var opts struct {
-		// any?
+		ImportWorker bool `short:"i" long:"import" description:"Define instance as import worker"`
+		ExportWorker bool `short:"e" long:"export" description:"Define instance as export worker"`
 	}
 
 	// CouchbaseFlags cli Configuration options for couchbase connection
@@ -55,6 +57,15 @@ func main() {
 		os.Exit(code)
 	}
 
+	if opts.ExportWorker && opts.ImportWorker {
+		log.Fatalf("cannot use worker for both import and export")
+	}
+	if opts.ExportWorker {
+		adaptors.WorkerType = adaptors.WorkerTypeExport
+	} else if opts.ImportWorker {
+		adaptors.WorkerType = adaptors.WorkerTypeImport
+	}
+
 	log.Print("Starting vice-import service...")
 
 	// catche SIGINT signals
@@ -80,14 +91,12 @@ func main() {
 	// initialize storage
 	storage.SetStorageConfig(storageFlags.Basepath)
 
-	log.Print("Wait for incoming import actions...")
+	log.Print("Wait for incoming actions...")
 	err = actions.WaitForActions()
 	if err != nil {
 		log.Printf("Cannot WaitForActions: %s", err)
 		shutdown()
 	}
-
-	//openstack.Test()
 
 }
 
