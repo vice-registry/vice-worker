@@ -3,7 +3,7 @@ package bwlehrpool
 import (
 	"fmt"
 
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
+	"github.com/vice-registry/vice-api/models"
 )
 
 // BwLehrpool defines the adaptor for OpenStack

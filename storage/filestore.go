@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
+	"github.com/vice-registry/vice-api/models"
 )
 
 var storageConfig = struct {

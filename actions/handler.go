@@ -5,11 +5,11 @@ import (
 	"log"
 	"strings"
 
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/persistence"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/bwlehrpool"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/common"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/openstack"
+	"github.com/vice-registry/vice-api/models"
+	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-worker/bwlehrpool"
+	"github.com/vice-registry/vice-worker/common"
+	"github.com/vice-registry/vice-worker/openstack"
 )
 
 // Action encapsulates necessary information of an action

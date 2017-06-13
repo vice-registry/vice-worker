@@ -3,7 +3,7 @@ package actions
 import (
 	"log"
 
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/common"
+	"github.com/vice-registry/vice-worker/common"
 )
 
 // WaitForActions listens on RabbitMQ channel and accepts one message at a time

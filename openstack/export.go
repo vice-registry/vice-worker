@@ -6,9 +6,9 @@ import (
 	"github.com/rackspace/gophercloud"
 	"github.com/rackspace/gophercloud/openstack"
 	"github.com/rackspace/gophercloud/openstack/imageservice/v2/images"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/persistence"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/storage"
+	"github.com/vice-registry/vice-api/models"
+	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-worker/storage"
 )
 
 func handleExport(deployment *models.Deployment) error {

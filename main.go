@@ -7,10 +7,10 @@ import (
 	"syscall"
 
 	flags "github.com/jessevdk/go-flags"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/persistence"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/actions"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/common"
-	"omi-gitlab.e-technik.uni-ulm.de/vice/vice-worker/storage"
+	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-worker/actions"
+	"github.com/vice-registry/vice-worker/common"
+	"github.com/vice-registry/vice-worker/storage"
 )
 
 func main() {

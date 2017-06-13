@@ -1,6 +1,6 @@
 package openstack
 
-import "omi-gitlab.e-technik.uni-ulm.de/vice/vice-api/models"
+import "github.com/vice-registry/vice-api/models"
 
 // OpenStack defines the adaptor for OpenStack
 type OpenStack struct {
