@@ -66,9 +66,9 @@ func main() {
 		adaptors.WorkerType = adaptors.WorkerTypeImport
 	}
 
-	log.Print("Starting vice-import service...")
+	log.Printf("Starting vice-worker service (%s) ...", adaptors.WorkerType)
 
-	// catche SIGINT signals
+	// catch SIGINT signals
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	signal.Notify(c, syscall.SIGTERM)
