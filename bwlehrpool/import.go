@@ -1,7 +1,6 @@
 package bwlehrpool
 
 import (
-	"log"
 	"github.com/vice-registry/vice-api/models"
 )
 

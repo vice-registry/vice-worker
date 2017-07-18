@@ -1,8 +1,6 @@
 package bwlehrpool
 
 import (
-	"fmt"
-
 	"github.com/vice-registry/vice-api/models"
 )
 
