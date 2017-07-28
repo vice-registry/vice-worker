@@ -8,6 +8,10 @@ jobs:
   include:
     - stage: compile go app
       script: 
+      - go get git.apache.org/thrift.git/lib/go/thrift
+      - cd $GOPATH/src/git.apache.org/thrift.git
+      - git checkout 0.10.0
+      - cd -
       - go get -d -v ./...
       - go build -v    
     - stage: build docker image
