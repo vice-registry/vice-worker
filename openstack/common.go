@@ -48,8 +48,17 @@ func login(environment *models.Environment) (session, error) {
 	}
 	region := rawRegion.(string)
 
+	// extract region
+	rawDomain, ok := specifics["Domain"]
+	if !ok {
+		err := fmt.Errorf("missing specific value %s", "Domain")
+		log.Printf("Unable to get openstack specifics: %s", err)
+		return session{}, err
+	}
+	domain := rawDomain.(string)
+
 	// login to openstack
-	osProvider, err := getProviderClient(endpoint, username, password, tenant)
+	osProvider, err := getProviderClient(endpoint, username, password, tenant, domain)
 	if err != nil {
 		log.Printf("Unable to login to openstack: %s", err)
 		return session{}, err
@@ -65,12 +74,13 @@ func login(environment *models.Environment) (session, error) {
 
 }
 
-func getProviderClient(endpoint string, username string, password string, tenant string) (*gophercloud.ProviderClient, error) {
+func getProviderClient(endpoint string, username string, password string, tenant string, domainname string) (*gophercloud.ProviderClient, error) {
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: endpoint,
 		Username:         username,
 		Password:         password,
 		TenantName:       tenant,
+		DomainName:       domainname,
 	}
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
