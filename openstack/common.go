@@ -6,7 +6,7 @@ import (
 
 	"github.com/rackspace/gophercloud"
 	"github.com/rackspace/gophercloud/openstack"
-	"github.com/vice-registry/vice-api/models"
+	"github.com/vice-registry/vice-util/models"
 )
 
 // https://github.com/hashicorp/terraform/blob/401c6a95a7d98004b2fa4d0f8d68fc4b95f870e9/builtin/providers/openstack/resource_openstack_images_image_v2.go#L170

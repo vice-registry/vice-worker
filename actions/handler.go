@@ -5,8 +5,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/vice-registry/vice-api/models"
-	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-util/models"
+	"github.com/vice-registry/vice-util/persistence"
 	"github.com/vice-registry/vice-worker/bwlehrpool"
 	"github.com/vice-registry/vice-worker/common"
 	"github.com/vice-registry/vice-worker/openstack"

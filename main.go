@@ -7,10 +7,10 @@ import (
 	"syscall"
 
 	flags "github.com/jessevdk/go-flags"
-	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-util/communication"
+	"github.com/vice-registry/vice-util/persistence"
 	"github.com/vice-registry/vice-worker/actions"
 	"github.com/vice-registry/vice-worker/common"
-	"github.com/vice-registry/vice-worker/storage"
 )
 
 func main() {
@@ -36,9 +36,9 @@ func main() {
 	}{}
 
 	// StorageFlags cli Configuration options for rabbitmq connection
-	var storageFlags = struct {
+	/*var storageFlags = struct {
 		Basepath string `short:"" long:"storage-basepath" description:"Basepath to store the imported images"`
-	}{}
+	}{}*/
 
 	// initialize parser for flags
 	parser := flags.NewParser(&opts, flags.Default)
@@ -46,7 +46,7 @@ func main() {
 	parser.LongDescription = "Image Import component of the ViCE Image Registry"
 	parser.AddGroup("Couchbase Connection", "Configuration options for couchbase connection", &couchbaseFlags)
 	parser.AddGroup("RabbitMQ Connection", "Configuration options for RabbitMQ connection", &rabbitmqFlags)
-	parser.AddGroup("Storage Connection", "Configuration options for Image Storage", &storageFlags)
+	//parser.AddGroup("Storage Connection", "Configuration options for Image Storage", &storageFlags)
 	if _, err := parser.Parse(); err != nil {
 		code := 1
 		if fe, ok := err.(*flags.Error); ok {
@@ -82,14 +82,14 @@ func main() {
 	persistence.InitViceCouchbase()
 
 	// initialize rabbitmq
-	err := actions.SetRabbitmqCredentials(rabbitmqFlags.Location, rabbitmqFlags.Username, rabbitmqFlags.Password)
+	err := communication.SetRabbitmqCredentials(rabbitmqFlags.Location, rabbitmqFlags.Username, rabbitmqFlags.Password)
 	if err != nil {
 		log.Printf("Unable to connect to RabbitMQ: %s", err)
 		shutdown()
 	}
 
 	// initialize storage
-	storage.SetStorageConfig(storageFlags.Basepath)
+	//storage.SetStorageConfig(storageFlags.Basepath)
 
 	log.Print("Wait for incoming actions...")
 	err = actions.WaitForActions()
@@ -103,6 +103,6 @@ func main() {
 func shutdown() {
 	// clean up before termination
 	persistence.CloseConnection()
-	actions.CloseConnection()
+	communication.CloseConnection()
 	os.Exit(1)
 }

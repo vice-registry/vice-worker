@@ -1,6 +1,6 @@
 package adaptors
 
-import "github.com/vice-registry/vice-api/models"
+import "github.com/vice-registry/vice-util/models"
 
 const (
 	// WorkerTypeImport captures enum value "import"

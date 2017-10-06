@@ -3,7 +3,7 @@ package actions
 import (
 	"log"
 
-	"github.com/vice-registry/vice-api/persistence"
+	"github.com/vice-registry/vice-util/persistence"
 )
 
 func handleImport(action Action) error {

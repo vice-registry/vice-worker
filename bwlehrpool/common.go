@@ -2,8 +2,9 @@ package bwlehrpool
 
 import (
 	"log"
-	"github.com/vice-registry/vice-api/models"
+
 	"github.com/OpenSLX/bwlp-go-client/client"
+	"github.com/vice-registry/vice-util/models"
 )
 
 func Login(environment *models.Environment) (*client.SessionHandler, error) {
@@ -11,11 +12,11 @@ func Login(environment *models.Environment) (*client.SessionHandler, error) {
 	username := environment.Credentials.Username
 	password := environment.Credentials.Password
 	// TODO extract the data from environment.Credentials.Location
-	// TODO use Credentials.Specifics for masterserver ports 
+	// TODO use Credentials.Specifics for masterserver ports
 	endpointData := client.MasterServerEndpoint{
-					Hostname: "bwlp-masterserver.ruf.uni-freiburg.de",
-					PortSSL: 9091,
-					PortPlain: 9090,
+		Hostname:  "bwlp-masterserver.ruf.uni-freiburg.de",
+		PortSSL:   9091,
+		PortPlain: 9090,
 	}
 	// get a new handler first
 	handler, err := client.NewSessionHandler(&endpointData)

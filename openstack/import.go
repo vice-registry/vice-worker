@@ -8,8 +8,8 @@ import (
 	"github.com/rackspace/gophercloud/openstack"
 	"github.com/rackspace/gophercloud/openstack/imageservice/v2/images"
 
-	"github.com/vice-registry/vice-api/models"
-	"github.com/vice-registry/vice-worker/storage"
+	"github.com/vice-registry/vice-util/models"
+	"github.com/vice-registry/vice-util/storeclient"
 )
 
 func handleImport(image *models.Image) error {
@@ -38,7 +38,7 @@ func handleImport(image *models.Image) error {
 
 	// get image reader and provide to storage layer
 	reader, err := getImageReader(osImageService, osImageID)
-	err = storage.StoreImage(image, reader)
+	err = storeclient.NewStoreRequest(image, reader)
 
 	// close import
 	log.Printf("Finished to import imageID %s from OpenStack", image.ID)

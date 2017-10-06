@@ -2,8 +2,9 @@ package bwlehrpool
 
 import (
 	"log"
-	"github.com/vice-registry/vice-api/models"
-	"github.com/vice-registry/vice-worker/storage"
+
+	"github.com/vice-registry/vice-util/models"
+	"github.com/vice-registry/vice-util/storeclient"
 )
 
 func handleImport(image *models.Image) error {
@@ -33,7 +34,7 @@ func handleImport(image *models.Image) error {
 	}
 
 	// provide the reader to the storage layer
-	err = storage.StoreImage(image, bwlpImageReader)
+	err = storeclient.NewStoreRequest(image, bwlpImageReader)
 	if err != nil {
 		log.Printf("Failed to provide image reader to storage layer: ", err)
 		return err
