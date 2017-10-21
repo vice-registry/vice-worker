@@ -31,27 +31,27 @@ func login(environment *models.Environment) (session, error) {
 	}
 
 	// extract tenant
-	rawTenant, ok := specifics["TenantName"]
+	rawTenant, ok := specifics["tenant"]
 	if !ok {
-		err := fmt.Errorf("missing specific value %s", "TenantName")
+		err := fmt.Errorf("missing specific value %s", "tenant")
 		log.Printf("Unable to get openstack specifics: %s", err)
 		return session{}, err
 	}
 	tenant := rawTenant.(string)
 
 	// extract region
-	rawRegion, ok := specifics["Region"]
+	rawRegion, ok := specifics["region"]
 	if !ok {
-		err := fmt.Errorf("missing specific value %s", "Region")
+		err := fmt.Errorf("missing specific value %s", "region")
 		log.Printf("Unable to get openstack specifics: %s", err)
 		return session{}, err
 	}
 	region := rawRegion.(string)
 
 	// extract region
-	rawDomain, ok := specifics["Domain"]
+	rawDomain, ok := specifics["domain"]
 	if !ok {
-		err := fmt.Errorf("missing specific value %s", "Domain")
+		err := fmt.Errorf("missing specific value %s", "domain")
 		log.Printf("Unable to get openstack specifics: %s", err)
 		return session{}, err
 	}
