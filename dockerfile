@@ -6,9 +6,8 @@ WORKDIR /opt/vice/
 ADD vice-worker /opt/vice/
 RUN chmod +x /opt/vice/vice-worker
 ENV WORKERTYPE=import \
-    COUCHBASE_LOCATION=localhost \
-    COUCHBASE_USER=admin \
-    COUCHBASE_PASS=admin \
+    RETHINKDB_LOCATION=localhost \
+    RETHINKDB_DATABASE=vice \
     RABBITMQ_LOCATION=localhost \
     RABBITMQ_USER=admin \
     RABBITMQ_PASS=admin \
@@ -16,9 +15,8 @@ ENV WORKERTYPE=import \
 CMD /opt/vice/vice-worker \
     $( if [[ $WORKERTYPE == "import" ]]; then echo "--import"; fi) \
     $( if [[ $WORKERTYPE == "export" ]]; then echo "--export"; fi) \
-    --couchbase-location $COUCHBASE_LOCATION \
-    --couchbase-user $COUCHBASE_USER \
-    --couchbase-pass $COUCHBASE_PASS \
+    --rethinkdb-location $RETHINKDB_LOCATION \
+    --rethinkdb-database $RETHINKDB_DATABASE \
     --rabbitmq-location $RABBITMQ_LOCATION \
     --rabbitmq-user $RABBITMQ_USER \
     --rabbitmq-pass $RABBITMQ_PASS \
