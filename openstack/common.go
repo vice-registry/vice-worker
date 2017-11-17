@@ -48,14 +48,12 @@ func login(environment *models.Environment) (session, error) {
 	}
 	region := rawRegion.(string)
 
-	// extract region
+	// extract domain - if exists (only required for keystone v3)
+	domain := ""
 	rawDomain, ok := specifics["domain"]
-	if !ok {
-		err := fmt.Errorf("missing specific value %s", "domain")
-		log.Printf("Unable to get openstack specifics: %s", err)
-		return session{}, err
+	if ok {
+		domain = rawDomain.(string)
 	}
-	domain := rawDomain.(string)
 
 	// login to openstack
 	osProvider, err := getProviderClient(endpoint, username, password, tenant, domain)
@@ -80,7 +78,10 @@ func getProviderClient(endpoint string, username string, password string, tenant
 		Username:         username,
 		Password:         password,
 		TenantName:       tenant,
-		DomainName:       domainname,
+	}
+	if domainname != "" {
+		// use domainname, if specified
+		opts.DomainName = domainname
 	}
 	provider, err := openstack.AuthenticatedClient(opts)
 	if err != nil {
