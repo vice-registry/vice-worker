@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#save paths
+currentpath=$(pwd)
+[ -n "${GOPATH}" ] || export GOPATH=$(cd ../../../../; pwd)
+
+# compile go app
+cd $GOPATH
+go build github.com/vice-registry/vice-worker
+mv vice-worker $currentpath
+cd $currentpath
+
+# create docker image
+docker build -t vice-worker .
+rm vice-worker
+
+# overwrite dockerhub image
+#docker tag vice-worker:latest viceregistry/vice-worker:latest
+
+# upload docker image
+# todo
