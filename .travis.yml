@@ -8,10 +8,16 @@ jobs:
   include:
     - stage: compile go app
       script: 
+      - go get github.com/tools/godep
+      - export PATH=$PATH:$HOME/gopath/bin
+      - godep restore
       - go get -d -v ./...
       - go build -v    
     - stage: build docker image
       script:
+      - go get github.com/tools/godep
+      - export PATH=$PATH:$HOME/gopath/bin
+      - godep restore
       - go get -d -v ./...
       - go build -v
       - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
