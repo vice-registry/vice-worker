@@ -1,0 +1,25 @@
+{
+	"ImportPath": "github.com/vice-registry/vice-worker",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v79",
+	"Packages": [
+		"github.com/OpenSLX/bwlp-go-client/bwlp",
+		"github.com/OpenSLX/bwlp-go-client/client",
+		"git.apache.org/thrift.git/lib/go/thrift"
+	],
+	"Deps": [
+		{
+			"ImportPath": "git.apache.org/thrift.git/lib/go/thrift",
+			"Comment": "0.10.0",
+			"Rev": "b2a4d4ae21c789b689dd162deb819665567f481c"
+		},
+		{
+			"ImportPath": "github.com/OpenSLX/bwlp-go-client/bwlp",
+			"Rev": "5ff1913258e697fba142323ff1220f945420fb3b"
+		},
+		{
+			"ImportPath": "github.com/OpenSLX/bwlp-go-client/client",
+			"Rev": "5ff1913258e697fba142323ff1220f945420fb3b"
+		}
+	]
+}
