@@ -9,7 +9,9 @@ jobs:
     - stage: compile go app
       script: 
       - go get -d -v ./...
-      - go build -v    
+      - go build -v
+      env:
+      - GO15VENDOREXPERIMENT=1
     - stage: build docker image
       script:
       - go get -d -v ./...
@@ -19,6 +21,9 @@ jobs:
       - docker tag vice-worker:latest viceregistry/vice-worker:latest
       - docker images
       - docker push viceregistry/vice-worker:latest
+      env:
+      - GO15VENDOREXPERIMENT=1
+
 deploy:
   provider: releases
   api_key:
